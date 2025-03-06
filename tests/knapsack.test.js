@@ -30,7 +30,6 @@ describe('Knapsack', () => {
 
     test('should throw error if capacity is exceeded', () => {
         const qubit3 = Qubit.createQubit(200).setWeight(200);
-        console.log(qubit3);
         expect(() => qubit3.selectQubit(knapsack)).toThrow('Knapsack capacity exceeded!');
     });
 
