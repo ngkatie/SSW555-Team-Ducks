@@ -34,10 +34,7 @@ export default class Qubit {
         */
         let value = getRandomInt(50);
 
-        // create new qubit object
-        const qubit = new Qubit(value, weight);
-
-        return qubit;
+        return new Qubit(value, weight);
     };
 
     // Imposes superposition on qubits

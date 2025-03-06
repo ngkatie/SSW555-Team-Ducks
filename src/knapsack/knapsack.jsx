@@ -7,6 +7,11 @@ export default class Knapsack {
         this.currentValue = 0;
     }
 
+    // Creates knapsack object
+    static createKnapsack = (capacity) => {
+        return new Knapsack(capacity);
+    };
+
     // Updates knapsack after qubit selection and deselection
     updateKnapsack = (qubit, action) => {
         // performs 'selection'

@@ -9,7 +9,7 @@ describe('Qubit', () => {
 
     // Create new knapsack and qubit objects
     beforeEach(() => {
-        knapsack = new Knapsack(100);
+        knapsack = Knapsack.createKnapsack(100);
         qubit = Qubit.createQubit(50);
     });
 
