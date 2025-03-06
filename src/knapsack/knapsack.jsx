@@ -7,42 +7,30 @@ export default class Knapsack {
         this.currentValue = 0;
     }
 
-    // Error Checking: Checks if capacity is a valid value
-    isValidCapacity = (qubitWeight) => {
-        // checks if qubitWeight is a valid value
-        if (typeof qubitWeight !== 'number' || qubitWeight < 0)
-            throw new Error("Invalid qubit weight!");
-
-        // checks if knapsack capacity is exceeded after adding a qubit
-        if (this.currentWeight + qubitWeight > this.capacity)
-            throw new Error("Knapsack capacity exceeded!");
-
-        // checks if knapsack capacity is below lower bound after removing a qubit
-        if (this.currentWeight - qubitWeight < 0) 
-            throw new Error("Knapsack capacity cannot be negative!");
-
-        return true;
-    };
-
     // Updates knapsack after qubit selection and deselection
     updateKnapsack = (qubit, action) => {
-        // checks if knapsack can be updated based on qubit weight
-        if (this.isValidCapacity(qubit.weight)) {
-            // performs 'selection'
-            if (action === 'select') {
-                this.qubits.push(qubit);
-                this.currentWeight += qubit.weight;
-                this.currentValue += qubit.value;
-            }
-            // performs 'deselection'
-            else if (action === 'deselect') {
-                this.qubits = this.qubits.filter(q => q !== qubit);
-                this.currentWeight -= qubit.weight;
-                this.currentValue -= qubit.value;
-            }
-            else {
-                throw new Error("Could not update knapsack!");
-            }
+        // performs 'selection'
+        if (action === 'select') {
+            // checks if knapsack capacity is exceeded after adding a qubit
+            if (this.currentWeight + qubit.weight > this.capacity)
+                throw new Error("Knapsack capacity exceeded!");
+
+            this.qubits.push(qubit);
+            this.currentWeight += qubit.weight;
+            this.currentValue += qubit.value;
+        }
+        // performs 'deselection'
+        else if (action === 'deselect') {
+             // checks if knapsack capacity is below lower bound after removing a qubit
+            if (this.currentWeight - qubit.weight < 0) 
+                throw new Error("Knapsack capacity cannot be negative!");
+
+            this.qubits = this.qubits.filter(q => q !== qubit);
+            this.currentWeight -= qubit.weight;
+            this.currentValue -= qubit.value;
+        }
+        else {
+            throw new Error("Could not update knapsack!");
         }
 
         return this; 

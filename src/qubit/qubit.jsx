@@ -1,5 +1,3 @@
-import Knapsack from "../knapsack/knapsack";
-
 export default class Qubit {
     // Defines qubit object
     constructor(value, weight) {
@@ -7,6 +5,12 @@ export default class Qubit {
         this.weight = weight;
         this.intervalID = null;
     }
+    
+    // Sets qubit weight to value
+    setWeight = (value) => {
+        this.weight = value;
+        return this; // Enable method chaining
+    };
 
     // Clears qubit intervalID
     clearQubitIntervalID = () => {
@@ -15,11 +19,7 @@ export default class Qubit {
             clearInterval(this.intervalID);
             this.intervalID = null;
         }
-    };
-
-    // Generates random integer from 0 to n (inclusive)
-    getRandomInt = (n) => {
-        return Math.floor(Math.random() * (n + 1));
+        return this; // Enable method chaining
     };
 
     // Creates qubit object
@@ -37,7 +37,7 @@ export default class Qubit {
         // create new qubit object
         const qubit = new Qubit(value, weight);
 
-        // updates the value of qubit millisecond until either selection OR after 5 seconds
+        // updates the value of qubit every 100 milliseconds until either selection OR after 5 seconds
         qubit.intervalID = setInterval(() => {
             qubit.value = getRandomInt(50);
         }, 100);
@@ -54,12 +54,18 @@ export default class Qubit {
     // Adds qubit to knapsack array
     selectQubit = (knapsack) => {
         this.clearQubitIntervalID();
-        return knapsack.updateKnapsack(this, 'select');
-
+        knapsack.updateKnapsack(this, 'select');
+        return this;
     };
 
     // Removes qubit from knapsack array
     deselectQubit = (knapsack) => {
-        return knapsack.updateKnapsack(this, 'deselect');
+        knapsack.updateKnapsack(this, 'deselect');
+        return this;
     };
 }
+
+// Generates random integer from 0 to n (inclusive)
+const getRandomInt = (n) => {
+    return Math.floor(Math.random() * (n + 1));
+};
