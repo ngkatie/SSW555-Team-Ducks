@@ -37,6 +37,11 @@ export default class Qubit {
         // create new qubit object
         const qubit = new Qubit(value, weight);
 
+        return qubit;
+    };
+
+    // Imposes superposition on qubits
+    superposeQubit = (qubit) => {
         // updates the value of qubit every 100 milliseconds until either selection OR after 5 seconds
         qubit.intervalID = setInterval(() => {
             qubit.value = getRandomInt(50);
