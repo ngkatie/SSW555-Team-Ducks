@@ -1,0 +1,18 @@
+{
+  "scores": [
+    {
+      "id": "1741731721464",
+      "playerName": "enoch",
+      "score": 1234,
+      "gameMode": "classic",
+      "createdAt": "2025-03-11T22:22:01.464Z"
+    },
+    {
+      "id": "1741731874658",
+      "playerName": "kyle",
+      "score": 2,
+      "gameMode": "classic",
+      "createdAt": "2025-03-11T22:24:34.658Z"
+    }
+  ]
+}
