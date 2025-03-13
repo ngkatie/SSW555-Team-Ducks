@@ -40,3 +40,30 @@
 .read-the-docs {
   color: #888;
 }
+
+.finalize-button {
+  padding: 0.6em 1.2em;
+  background-color: #646cff;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin-top: 1rem;
+}
+
+.finalize-button:hover {
+  border-color: #646cff;
+}
+
+.finalize-button:disabled {
+  background-color: #4a4a4a;
+  cursor: not-allowed;
+}
+
+.success-message {
+  color: #4caf50;
+  margin-top: 1rem;
+  font-weight: bold;
+}
