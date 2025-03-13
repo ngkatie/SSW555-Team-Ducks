@@ -3,6 +3,11 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  min-height: 100vh;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo {
@@ -66,4 +71,8 @@
   color: #4caf50;
   margin-top: 1rem;
   font-weight: bold;
+}
+
+.App {
+  width: 100%;
 }
