@@ -1,6 +1,5 @@
 import Knapsack from "../src/knapsack/knapsack";
 import Qubit from "../src/qubit/qubit";
-import { expect, describe, beforeEach, test } from "vitest"; 
 
 // Initialize variables for each variable
 describe('Knapsack', () => {
