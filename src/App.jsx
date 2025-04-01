@@ -1,9 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
-import GamePage from './components/GamePage';
+import GamePage from './components/game/GamePage';
 import './App.css';
-import ScoreTest from './components/ScoreTest'
 
 function App() {
   return (
