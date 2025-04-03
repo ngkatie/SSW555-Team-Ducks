@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import FinalizeButton from '../src/components/FinalizeButton/FinalizeButton';
+import FinalizeButton from '../src/components/game/FinalizeButton';
 
 describe('FinalizeButton', () => {
   // Mock function to simulate the onFinalize callback
