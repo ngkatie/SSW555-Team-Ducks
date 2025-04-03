@@ -6,9 +6,6 @@ import './LandingPage.css';
 function LandingPage() {
   return (
     <div className="landing-page">
-      {/* <div>
-        <img src={qkLogo} className="logo" alt="Quantum Knapsack logo" />
-      </div> */}
       <h1>Quantum Knapsack</h1>
       <div className="card">
         <p>
