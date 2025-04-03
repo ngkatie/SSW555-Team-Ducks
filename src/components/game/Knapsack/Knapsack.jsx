@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
-import Box from "@mui/material/Box";
-
+import { Box, Grid } from "@mui/material";
 import Qubit from "../Qubit/Qubit";
 
 const Knapsack = ({initialCapacity = 100}) => {
@@ -36,27 +35,18 @@ const Knapsack = ({initialCapacity = 100}) => {
             if (weight + qubit.weight > capacity)
                 throw new Error("Knapsack capacity exceeded!");
 
-            setQubits(prevQubits => [...prevQubits, qubit]);
+            // setQubits(prevQubits => [...prevQubits, qubit]);
             setWeight(currentWeight => currentWeight + qubit.weight);
             setValue(currentValue => currentValue + qubit.value);
         }
-        // // performs 'deselection'
-        // else if (action === 'deselect') {
-        //      // checks if knapsack capacity is below lower bound after removing a qubit
-        //     if (weight - qubit.weight < 0) 
-        //         throw new Error("Knapsack capacity cannot be negative!");
 
-        //     setQubits(qubits.filter(q => q !== qubit));
-        //     setWeight(currentWeight => currentWeight - qubit.weight);
-        //     setValue(currentValue => currentValue - qubit.value);
-        // }
         catch(e) {
             throw new Error("Could not update knapsack!");
         }
     };
 
     return (
-        <div className="knapsack-container">
+        <Grid container className="knapsack-container" sx={{ justifyContent: "center", alignItems: "center" }}>
 
             <Box component="section"
                 sx={{
@@ -71,18 +61,29 @@ const Knapsack = ({initialCapacity = 100}) => {
                 }}>
                 <h2>My Knapsack</h2>
                 <div className="knapsack-stats">
-                    <p><strong>Capacity:</strong> {capacity.toFixed(0)}</p>
-                    <p><strong>Weight:</strong> {weight.toFixed(0)}</p>
-                    <p><strong>Value:</strong> {value.toFixed(2)}</p>
+                    <p><strong>Capacity:</strong> {capacity}</p>
+                    <p><strong>Weight:</strong> {weight}</p>
+                    <p><strong>Value:</strong> {value}</p>
                     {/* <p><strong>Qubits:</strong> {qubits.length}</p> */}
                 </div>
             </Box>
 
-            <Qubit onSelect={addQubit}/>
-            <Qubit onSelect={addQubit}/>
-            <Qubit onSelect={addQubit}/>
+            <Grid container spacing={2}>
+                <Qubit onSelect={addQubit}></Qubit>
+                <Qubit onSelect={addQubit}></Qubit>
+                <Qubit onSelect={addQubit}></Qubit>
+                <Qubit onSelect={addQubit}></Qubit>
+                <Qubit onSelect={addQubit}></Qubit>
+                <Qubit onSelect={addQubit}></Qubit>
+                <Qubit onSelect={addQubit}></Qubit>
+                <Qubit onSelect={addQubit}></Qubit>
+                <Qubit onSelect={addQubit}></Qubit>
+                <Qubit onSelect={addQubit}></Qubit>
+            </Grid>
 
-            {/* <button className="add-btn" onClick={addQubit}>➕ Add Qubit</button> */}
+            {/* {Array.from({ length: 10 }).map((_, qubit) => (
+                <Qubit key={qubit} onSelect={addQubit}></Qubit>
+            ))} */}
 
             {/* <ul className="qubit-list">
                 {qubits.map((qubit) => (
@@ -92,7 +93,7 @@ const Knapsack = ({initialCapacity = 100}) => {
                     </li>
                 ))}
             </ul> */}
-        </div>
+        </Grid>
     );
 };
 
