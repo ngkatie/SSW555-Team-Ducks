@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import Box from "@mui/material/Box";
 
+import Qubit from "../Qubit/Qubit";
+
 const Knapsack = ({initialCapacity = 100}) => {
 
     const [capacity, setCapacity] = useState(initialCapacity);
@@ -26,10 +28,10 @@ const Knapsack = ({initialCapacity = 100}) => {
     //     return () => clearTimeout();
     // }, []);
 
-    // Updates knapsack after qubit selection and deselection
-    const updateKnapsack = (qubit, action) => {
-        // performs 'selection'
-        if (action === 'select') {
+    // Updates knapsack after qubit selection
+    const addQubit = (qubit) => {
+
+        try {
             // checks if knapsack capacity is exceeded after adding a qubit
             if (weight + qubit.weight > capacity)
                 throw new Error("Knapsack capacity exceeded!");
@@ -38,17 +40,17 @@ const Knapsack = ({initialCapacity = 100}) => {
             setWeight(currentWeight => currentWeight + qubit.weight);
             setValue(currentValue => currentValue + qubit.value);
         }
-        // performs 'deselection'
-        else if (action === 'deselect') {
-             // checks if knapsack capacity is below lower bound after removing a qubit
-            if (weight - qubit.weight < 0) 
-                throw new Error("Knapsack capacity cannot be negative!");
+        // // performs 'deselection'
+        // else if (action === 'deselect') {
+        //      // checks if knapsack capacity is below lower bound after removing a qubit
+        //     if (weight - qubit.weight < 0) 
+        //         throw new Error("Knapsack capacity cannot be negative!");
 
-            setQubits(qubits.filter(q => q !== qubit));
-            setWeight(currentWeight => currentWeight - qubit.weight);
-            setValue(currentValue => currentValue - qubit.value);
-        }
-        else {
+        //     setQubits(qubits.filter(q => q !== qubit));
+        //     setWeight(currentWeight => currentWeight - qubit.weight);
+        //     setValue(currentValue => currentValue - qubit.value);
+        // }
+        catch(e) {
             throw new Error("Could not update knapsack!");
         }
     };
@@ -75,6 +77,10 @@ const Knapsack = ({initialCapacity = 100}) => {
                     {/* <p><strong>Qubits:</strong> {qubits.length}</p> */}
                 </div>
             </Box>
+
+            <Qubit onSelect={addQubit}/>
+            <Qubit onSelect={addQubit}/>
+            <Qubit onSelect={addQubit}/>
 
             {/* <button className="add-btn" onClick={addQubit}>➕ Add Qubit</button> */}
 
