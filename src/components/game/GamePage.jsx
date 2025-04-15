@@ -4,6 +4,7 @@ import Welcome from './Welcome/Welcome'
 import Knapsack from './Knapsack/Knapsack';
 import Qubit from './Qubit/Qubit';
 
+
 function GamePage() {
   return (
     <div>

@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { scoreService } from '../services/scoreService';
-import Leaderboard from './Leaderboard';
+import { scoreService } from '../../services/scoreService';
+import Leaderboard from '../leaderboard/Leaderboard';
+import DecoherenceEffect from './DecoherenceEffect';
 
 const Game = () => {
     const [score, setScore] = useState(0);
     const [playerName, setPlayerName] = useState('');
     const [gameOver, setGameOver] = useState(false);
+    const [showDecoherence, setShowDecoherence] = useState(false);
     const [bestScore, setBestScore] = useState(0);
 
     // Fetch player's best score when component mounts
@@ -39,6 +41,16 @@ const Game = () => {
         setGameOver(false);
     };
 
+    const handleDecoherenceComplete = () => {
+        setShowDecoherence(false);
+        // Add any game logic that should happen after decoherence
+    };
+
+    // Call this function whenever you want to trigger the decoherence effect
+    const triggerDecoherence = () => {
+        setShowDecoherence(true);
+    };
+
     return (
         <div className="game-container">
             {!playerName ? (
@@ -57,6 +69,10 @@ const Game = () => {
                     </div>
                     {/* Your game components go here */}
                     <button onClick={handleGameOver}>End Game</button>
+                    <DecoherenceEffect 
+                        isActive={showDecoherence} 
+                        onComplete={handleDecoherenceComplete}
+                    />
                 </div>
             ) : (
                 <div className="game-over">
