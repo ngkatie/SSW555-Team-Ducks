@@ -8,15 +8,16 @@ const Welcome = () => {
         <Modal open={isVisible} onClose={() => setIsVisible(false)}>
             <Box
                 sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
                     width: 400,
-                    bgcolor: 'background.paper',
+                    bgcolor: "background.paper",
+                    color: "text.primary", // You can also set it explicitly, e.g., color: "black"
                     boxShadow: 24,
                     p: 4,
-                    borderRadius: 2
+                    borderRadius: 2,
                 }}
             >
                 <Typography variant="h6" component="h2">
