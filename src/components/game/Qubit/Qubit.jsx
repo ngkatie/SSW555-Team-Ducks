@@ -54,7 +54,7 @@ const Qubit = ({ onSelect }) => {
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ repeat: Infinity, duration: 1 }}
           >
-            <Typography variant="h5">{value}</Typography>
+            {/* <Typography variant="h5">{value}</Typography> */}
           </motion.div>
           <p>{isHeavy ? 'Heavy' : 'Light'}</p>
         </CardContent>
