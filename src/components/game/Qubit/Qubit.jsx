@@ -41,25 +41,71 @@ const Qubit = ({ onSelect }) => {
   }
 
   return (
-    <Badge badgeContent={"+"} color="success" overlap="circular" onClick={handleSelect}>
-      <Card sx={{
-        width: 100,
-        height: 100,
-        border: 1,
-        borderRadius: '50%'
-      }}>
-        <CardContent>
-          <motion.div
-            className="text-2xl font-mono mt-2"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ repeat: Infinity, duration: 1 }}
+    <div>
+      {isFixed ? 
+      <Badge badgeContent={"-"} color="error" overlap="circular" onClick={handleSelect}>
+
+        <motion.div
+          style={{ width: 100, height: 100, border: 1, borderRadius: '50%' }}
+            animate={isFixed ? {} : { boxShadow: [
+              "0px 0px 10px rgba(0, 255, 255, 0.5)",
+              "0px 0px 40px rgba(0, 255, 255, 0.8)",
+              "0px 0px 10px rgba(0, 255, 255, 0.5)"
+            ] }}
+            transition={isFixed ? {} : { repeat: Infinity, duration: 1 }}
           >
-            <Typography variant="h5">{value}</Typography>
-          </motion.div>
-          <p>{isHeavy ? 'Heavy' : 'Light'}</p>
-        </CardContent>
-      </Card>
+
+          <Card sx={{ width: 100, height: 100, border: 1, borderRadius: '50%' }}>
+
+            <CardContent>
+              <motion.div
+                className="text-2xl font-mono mt-2"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ repeat: Infinity, duration: 1 }}
+              >
+                <Typography variant="h5">{value}</Typography>
+              </motion.div>
+              <p>{isHeavy ? 'Heavy' : 'Light'}</p>
+            </CardContent>
+
+          </Card>
+
+        </motion.div>
+      
+      </Badge> :
+
+      <Badge badgeContent={"+"} color="success" overlap="circular" onClick={handleSelect}>
+
+      <motion.div
+        style={{ width: 100, height: 100, border: 1, borderRadius: '50%' }}
+          animate={isFixed ? {} : { boxShadow: [
+            "0px 0px 10px rgba(0, 255, 255, 0.5)",
+            "0px 0px 40px rgba(0, 255, 255, 0.8)",
+            "0px 0px 10px rgba(0, 255, 255, 0.5)"
+          ] }}
+          transition={isFixed ? {} : { repeat: Infinity, duration: 1 }}
+        >
+
+        <Card sx={{ width: 100, height: 100, border: 1, borderRadius: '50%' }}>
+
+          <CardContent>
+            <motion.div
+              className="text-2xl font-mono mt-2"
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ repeat: Infinity, duration: 1 }}
+            >
+              <Typography variant="h5">{value}</Typography>
+            </motion.div>
+            <p>{isHeavy ? 'Heavy' : 'Light'}</p>
+          </CardContent>
+
+        </Card>
+
+      </motion.div>
+    
     </Badge>
+    }
+    </div>
   );
 };
 

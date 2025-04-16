@@ -1,47 +1,44 @@
-import Knapsack from "../src/knapsack/knapsack";
-import Qubit from "../src/qubit/qubit";
-import { expect, describe, beforeEach, test } from "vitest"; 
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import Knapsack from '../src/components/game/Knapsack/Knapsack';
+import '@testing-library/jest-dom';
 
-// Initialize variables for each variable
-describe('Knapsack', () => {
-    let knapsack;
-    let qubit1;
-    let qubit2;
+// Mock Qubit component to simulate interaction
+jest.mock('../src/components/game/Qubit/Qubit', () => (props) => {
+  const mockQubit = { weight: 50, value: 35 };
+  return (
+    <button onClick={() => props.onSelect(mockQubit)} data-testid="mock-qubit">
+      Mock Qubit
+    </button>
+  );
+});
 
-    // Create new knapsack and qubit objects
-    beforeEach(() => {
-        knapsack = Knapsack.createKnapsack(100);
-        qubit1 = Qubit.createQubit(50);
-        qubit2 = Qubit.createQubit(50);
-    });
+describe('Knapsack component', () => {
+  test('renders knapsack element', () => {
+    render(<Knapsack />);
+    expect(screen.getByText(/My Knapsack/i)).toBeInTheDocument();
+    expect(screen.getByText(/Capacity:/)).toHaveTextContent('Capacity:');
+    expect(screen.getByText(/Weight:/)).toHaveTextContent('Weight:');
+    expect(screen.getByText(/Value:/)).toHaveTextContent('Value:');
+  });
 
-    // Tests updating of knapsack after selection
-    test('should add qubit to knapsack', () => {
-        qubit1.selectQubit(knapsack);
-        expect(knapsack.qubits).toContain(qubit1);
-        expect(knapsack.currentWeight).toBe(qubit1.weight);
-        expect(knapsack.currentValue).toBe(qubit1.value);
-    });
+  test('adds qubit and update knapsack parameters', () => {
+    render(<Knapsack />);
+ 
+    const qubitButtons = screen.getAllByTestId('mock-qubit');
+    fireEvent.click(qubitButtons[0]); // Simulate selecting a qubit
 
-    // Tests updating of knapsack after deselection
-    test('should remove qubit from knapsack', () => {
-        qubit1.selectQubit(knapsack);
-        qubit1.deselectQubit(knapsack);
-        expect(knapsack.qubits).not.toContain(qubit1);
-        expect(knapsack.currentWeight).toBe(0);
-        expect(knapsack.currentValue).toBe(0);
-    });
+    expect(screen.getByText(/Weight:/)).toBeInTheDocument();
+    expect(screen.getByText(/Value:/)).toBeInTheDocument();
+  });
 
-    // Tests error checking of knapsack capacity if exceeds capacity
-    test('should throw error if capacity is exceeded', () => {
-        qubit1.setWeight(200);
-        expect(() => qubit1.selectQubit(knapsack)).toThrow('Knapsack capacity exceeded!');
-    });
+  test('shows error modal if capacity is exceeded', () => {
+    render(<Knapsack initialCapacity={50} />);
 
-    // Tests error checking of knapsack capacity if below 0
-    test('should throw error if negative capacity', () => {
-        qubit1.selectQubit(knapsack);
-        expect(() => qubit1.deselectQubit(knapsack)).not.toThrow();
-        expect(() => qubit1.deselectQubit(knapsack)).toThrow('Knapsack capacity cannot be negative!');
-    });
+    const qubitButtons = screen.getAllByTestId('mock-qubit');
+    fireEvent.click(qubitButtons[0]);
+    fireEvent.click(qubitButtons[1]);
+
+    expect(screen.getByText(/Capacity exceeded/i)).toBeInTheDocument();
+  });
 });

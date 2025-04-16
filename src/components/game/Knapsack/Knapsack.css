@@ -11,6 +11,18 @@
     text-align: center;
 }
 
+.knapsack-box {
+    padding: 16px;
+    padding-bottom: 32px; 
+    margin: 40px;
+    width: 200px;
+    color: #000000;
+    background-color: #ADD8E6;
+    border: 1px solid black;
+    border-radius: 10%;
+  }
+  
+
 .stats {
     font-size: 18px;
     margin-bottom: 20px;
@@ -58,3 +70,16 @@
 .remove-btn:hover {
     background: #c0392b;
 }
+
+.modal-error-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.2);
+    padding: 32px;
+    border-radius: 16px;
+}
+  
