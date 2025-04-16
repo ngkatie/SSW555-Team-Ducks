@@ -13,9 +13,6 @@ function GamePage() {
 
       <div>
         <Knapsack/>
-        <Qubit/>
-        <Qubit/>
-        <Qubit/>
       </div>
 
     </div>
