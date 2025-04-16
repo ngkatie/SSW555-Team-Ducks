@@ -1,91 +1,72 @@
 import React, {useState, useEffect} from "react";
-import Box from "@mui/material/Box";
+import { Box, Grid, Modal, Typography } from "@mui/material";
+import Qubit from '../Qubit/Qubit';
+import './Knapsack.css';
 
-const Knapsack = ({initialCapacity = 100}) => {
-
+const useKnapsack = (initialCapacity = 100) => {
     const [capacity, setCapacity] = useState(initialCapacity);
     const [weight, setWeight] = useState(0);
     const [value, setValue] = useState(0);
     const [qubits, setQubits] = useState([]);
+    const [showError, setShowError] = useState(false);
 
-    // Random decoherence
-    // useEffect(() => {
-    //     const reduceCapacity = () => {
-    //         setCapacity(cap => Math.max(cap * 0.9, 0));
-    //         nextDecoherence();
-    //     };
-
-    //     const nextDecoherence = () => {
-    //         const interval = Math.random() * 30000;
-    //         const timeoutId = setTimeout(reduceCapacity, interval);
-    //         return timeoutId;
-    //     };
-
-    //     const timeoutId = nextDecoherence();
-
-    //     return () => clearTimeout();
-    // }, []);
-
-    // Updates knapsack after qubit selection and deselection
-    const updateKnapsack = (qubit, action) => {
-        // performs 'selection'
-        if (action === 'select') {
-            // checks if knapsack capacity is exceeded after adding a qubit
-            if (weight + qubit.weight > capacity)
-                throw new Error("Knapsack capacity exceeded!");
-
-            setQubits(prevQubits => [...prevQubits, qubit]);
-            setWeight(currentWeight => currentWeight + qubit.weight);
-            setValue(currentValue => currentValue + qubit.value);
+    const addQubit = (qubit) => {
+        // checks if knapsack capacity is exceeded after adding a qubit
+        if (weight + qubit.weight > capacity) {
+            setShowError(true);
         }
-        // performs 'deselection'
-        else if (action === 'deselect') {
-             // checks if knapsack capacity is below lower bound after removing a qubit
-            if (weight - qubit.weight < 0) 
-                throw new Error("Knapsack capacity cannot be negative!");
 
-            setQubits(qubits.filter(q => q !== qubit));
-            setWeight(currentWeight => currentWeight - qubit.weight);
-            setValue(currentValue => currentValue - qubit.value);
-        }
-        else {
-            throw new Error("Could not update knapsack!");
-        }
+        // setQubits(prevQubits => [...prevQubits, qubit]);
+        setWeight(currentWeight => currentWeight + qubit.weight);
+        setValue(currentValue => currentValue + qubit.value);
     };
 
-    return (
-        <div className="knapsack-container">
+    return { capacity, weight, value, qubits, addQubit, showError, setShowError };
+}
 
-            <Box component="section"
-                sx={{
-                    padding: 2,
-                    margin: 2,
-                    paddingBottom: 4,
-                    width: 200,
-                    color: '#000000',
-                    backgroundColor: '#ADD8E6',
-                    border: 1,
-                    borderRadius: '10%'
-                }}>
-                <h2>My Knapsack</h2>
-                <div className="knapsack-stats">
-                    <p><strong>Capacity:</strong> {capacity.toFixed(0)}</p>
-                    <p><strong>Weight:</strong> {weight.toFixed(0)}</p>
-                    <p><strong>Value:</strong> {value.toFixed(2)}</p>
-                    {/* <p><strong>Qubits:</strong> {qubits.length}</p> */}
-                </div>
+const Knapsack = ({initialCapacity}) => {
+
+    const { capacity, weight, value, addQubit, showError, setShowError } = useKnapsack(initialCapacity);
+
+    const numQubits = 10;
+    const qubits = Array.from({ length: numQubits }, (_, i) => (
+        <Qubit key={i} onSelect={addQubit} />
+    ));
+
+    const ErrorModal = ({ open, onClose }) => (
+        <Modal open={open} onClose={onClose}>
+            <Box className="modal-error-box">
+                <Typography variant="h6" component="h2">
+                    Error
+                </Typography>
+                <Typography sx={{ mt: 3 }}>
+                    Capacity exceeded! Cannot add this qubit to knapsack.
+                </Typography>
             </Box>
+        </Modal>
+    );
+    
 
-            {/* <button className="add-btn" onClick={addQubit}>➕ Add Qubit</button> */}
+    return (
+        <div>
+            <Grid container className="knapsack-container" sx={{ justifyContent: "center", alignItems: "center" }}>
 
-            {/* <ul className="qubit-list">
-                {qubits.map((qubit) => (
-                    <li key={qubit.id} className="qubit-item">
-                        <span>⚛ Qubit {qubit.id} - W: {qubit.weight}, V: {qubit.value}</span>
-                        <button className="remove-btn" onClick={() => removeQubit(qubit.id)}>❌ Remove</button>
-                    </li>
-                ))}
-            </ul> */}
+                <Box component="section" className="knapsack-box">
+                    <h2>My Knapsack</h2>
+                    <div className="knapsack-stats">
+                        <p><strong>Capacity:</strong> {capacity}</p>
+                        <p><strong>Weight:</strong> {weight}</p>
+                        <p><strong>Value:</strong> {value}</p>
+                        {/* <p><strong>Qubits:</strong> {qubits.length}</p> */}
+                    </div>
+                </Box>
+
+                <Grid container spacing={2}>
+                    {qubits}
+                </Grid>
+            </Grid>
+
+            <ErrorModal open={showError} onClose={() => setShowError(false)}/>
         </div>
     );
 };
