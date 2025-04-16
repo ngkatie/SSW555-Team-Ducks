@@ -68,7 +68,11 @@ const Knapsack = ({initialCapacity = 100}) => {
                 </div>
             </Box>
 
+            {/* Replaces the Qubit components with a loop of length 10 */}
             <Grid container spacing={2}>
+                {/* {Array.from({ length: 10 }).map((_, index) => (
+                    <Qubit key={index} onSelect={addQubit}/>
+                ))} */}
                 <Qubit onSelect={addQubit}></Qubit>
                 <Qubit onSelect={addQubit}></Qubit>
                 <Qubit onSelect={addQubit}></Qubit>
@@ -80,6 +84,7 @@ const Knapsack = ({initialCapacity = 100}) => {
                 <Qubit onSelect={addQubit}></Qubit>
                 <Qubit onSelect={addQubit}></Qubit>
             </Grid>
+
 
             {/* {Array.from({ length: 10 }).map((_, qubit) => (
                 <Qubit key={qubit} onSelect={addQubit}></Qubit>
