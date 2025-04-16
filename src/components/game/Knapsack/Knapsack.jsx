@@ -64,6 +64,7 @@ const Knapsack = ({initialCapacity}) => {
                 <Grid container spacing={2}>
                     {qubits}
                 </Grid>
+            </Grid>
 
             <ErrorModal open={showError} onClose={() => setShowError(false)}/>
         </div>
