@@ -3,7 +3,7 @@ import { Card, CardContent, Badge, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import "./Qubit.css"
 
-const Qubit = ({ onSelect }) => {
+const Qubit = ({ id, onSelect }) => {
 
   const [isHeavy, setIsHeavy] = useState(Math.round(Math.random()));
   const [weight, setWeight] = useState(0);
@@ -36,41 +36,33 @@ const Qubit = ({ onSelect }) => {
   }, [isFixed]);
 
   const handleSelect = () => {
-    setIsFixed(true);
-    onSelect({value, weight});
+    setIsFixed(!isFixed);
+    onSelect({isAdded, value, weight});
+    setIsAdded(!isAdded);
   }
 
   return (
     <div>
-      {isFixed ? 
+      {isAdded ? 
+
+      // Qubit added
       <Badge badgeContent={"-"} color="error" overlap="circular" onClick={handleSelect}>
 
-        <motion.div
-          style={{ width: 100, height: 100, border: 1, borderRadius: '50%' }}
-            animate={isFixed ? {} : { boxShadow: [
-              "0px 0px 10px rgba(0, 255, 255, 0.5)",
-              "0px 0px 40px rgba(0, 255, 255, 0.8)",
-              "0px 0px 10px rgba(0, 255, 255, 0.5)"
-            ] }}
-            transition={isFixed ? {} : { repeat: Infinity, duration: 1 }}
-          >
-
-          <Card sx={{ width: 100, height: 100, border: 1, borderRadius: '50%' }}>
+          <Card sx={{ width: 70, height: 70, border: 1, borderRadius: '50%' , backgroundColor: 'gray'}}>
 
             <CardContent>
               <p>{isHeavy ? 'Heavy' : 'Light'}</p>
             </CardContent>
 
           </Card>
-
-        </motion.div>
       
       </Badge> :
 
+      // Qubit not added
       <Badge badgeContent={"+"} color="success" overlap="circular" onClick={handleSelect}>
 
       <motion.div
-        style={{ width: 100, height: 100, border: 1, borderRadius: '50%' }}
+        style={{ width: 70, height: 70, border: 1, borderRadius: '50%' }}
           animate={isFixed ? {} : { boxShadow: [
             "0px 0px 10px rgba(0, 255, 255, 0.5)",
             "0px 0px 40px rgba(0, 255, 255, 0.8)",
@@ -79,7 +71,7 @@ const Qubit = ({ onSelect }) => {
           transition={isFixed ? {} : { repeat: Infinity, duration: 1 }}
         >
 
-        <Card sx={{ width: 100, height: 100, border: 1, borderRadius: '50%' }}>
+        <Card sx={{ width: 70, height: 70, border: 1, borderRadius: '50%' }}>
 
           <CardContent>
             <p>{isHeavy ? 'Heavy' : 'Light'}</p>

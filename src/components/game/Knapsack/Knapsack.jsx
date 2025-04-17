@@ -3,35 +3,97 @@ import { Box, Grid, Modal, Typography } from "@mui/material";
 import Qubit from '../Qubit/Qubit';
 import './Knapsack.css';
 
-const useKnapsack = (initialCapacity = 100) => {
+const useKnapsack = (initialCapacity = 50, roundId = "1") => {
     const [capacity, setCapacity] = useState(initialCapacity);
     const [weight, setWeight] = useState(0);
     const [value, setValue] = useState(0);
-    const [qubits, setQubits] = useState([]);
+    const [addedQubits, setAddedQubits] = useState([]); // holds IDs
+    const [entangledPairs, setEntangledPairs] = useState([]);
     const [showError, setShowError] = useState(false);
 
-    const addQubit = (qubit) => {
-        // checks if knapsack capacity is exceeded after adding a qubit
-        if (weight + qubit.weight > capacity) {
-            setShowError(true);
-        }
+    // Setup entanglement pairs
+    useEffect(() => {
+        if (roundId === "2") {
+            const numPairs = 3;
+            const indices = Array.from({ length: 12 }, (_, i) => i);
+            const shuffled = indices.sort(() => Math.random() - 0.5);
+            const pairs = [];
 
-        // setQubits(prevQubits => [...prevQubits, qubit]);
-        setWeight(currentWeight => currentWeight + qubit.weight);
-        setValue(currentValue => currentValue + qubit.value);
+            for (let i = 0; i < numPairs * 2; i += 2) {
+                pairs.push([shuffled[i], shuffled[i + 1]]);
+            }
+
+            setEntangledPairs(pairs);
+        }
+    }, [roundId]);
+
+    const isEntangled = (id) => {
+        for (const [a, b] of entangledPairs) {
+            if (a === id) return b;
+            if (b === id) return a;
+        }
+        return null;
     };
 
-    return { capacity, weight, value, qubits, addQubit, showError, setShowError };
-}
+    const addQubit = (qubit) => {
+        const { id, weight: w, value: v } = qubit;
 
-const Knapsack = ({initialCapacity}) => {
+        if (addedQubits.includes(id)) return;
 
-    const { capacity, weight, value, addQubit, showError, setShowError } = useKnapsack(initialCapacity);
+        // Check capacity
+        if (weight + w > capacity) {
+            setShowError(true);
+            return;
+        }
 
-    const numQubits = 12;
+        // Add qubit
+        setWeight((prev) => prev + w);
+        setValue((prev) => prev + v);
+        setAddedQubits((prev) => [...prev, id]);
+
+        // If entangled, add pair
+        const partnerId = isEntangled(id);
+        if (partnerId !== null && !addedQubits.includes(partnerId)) {
+            
+            const partner = {
+                id: partnerId,
+                weight: 5,
+                value: 10
+            };
+        }
+    };
+
+    return {
+        capacity,
+        weight,
+        value,
+        addQubit,
+        showError,
+        setShowError,
+        addedQubits,
+        entangledPairs
+    };
+};
+
+
+const Knapsack = ({initialCapacity, roundId}) => {
+
+    const { 
+        capacity,
+        weight,
+        value,
+        addQubit,
+        showError,
+        setShowError,
+        addedQubits,
+        entangledPairs
+    } = useKnapsack(initialCapacity, roundId);
+
+    const numQubits = 16;
     const qubits = Array.from({ length: numQubits }, (_, i) => (
-        <Qubit key={i} onSelect={addQubit} />
+        <Qubit key={i} id={i} onSelect={addQubit} />
     ));
+    
 
     const ErrorModal = ({ open, onClose }) => (
         <Modal open={open} onClose={onClose}>

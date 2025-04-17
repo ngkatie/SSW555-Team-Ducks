@@ -3,11 +3,11 @@ import React from "react";
 import RoundModal from "./RoundModal";
 import roundContent from "./roundContent.json";
 
-const RoundWrapper = ({ roundNum }) => {
-  const content = roundContent[roundNum];
+const RoundWrapper = ({ roundId }) => {
+  const content = roundContent[roundId];
 
   if (!content) {
-    console.log(`Round ${roundNum} is nonexistent`);
+    console.log(`Round ${roundId} is nonexistent`);
     return null;
   }
 

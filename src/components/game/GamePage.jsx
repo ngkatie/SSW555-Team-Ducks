@@ -1,18 +1,18 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { useParams } from 'react-router-dom';
 import RoundWrapper from '../game/Rounds/RoundWrapper'
 import Knapsack from './Knapsack/Knapsack';
-import Qubit from './Qubit/Qubit';
 
-function GamePage() {
+const GamePage = () => {
+  const { roundId } = useParams();
+  console.log(roundId);
+
   return (
     <div>
-      <RoundWrapper key={"1"}/>
-
+      <RoundWrapper roundId={roundId}/>
       <div>
         <Knapsack/>
       </div>
-
     </div>
   );
 }

@@ -12,7 +12,7 @@ function LandingPage() {
           To address the learning curve associated with quantum computing, Quantum Knapsack introduces foundational concepts using a variation of the classic knapsack problem.
         </p>
       </div>
-      <Link to="/game">
+      <Link to="/round/1">
         <button>Start Game</button>
       </Link>
     </div>
