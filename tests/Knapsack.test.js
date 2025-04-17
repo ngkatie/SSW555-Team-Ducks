@@ -41,4 +41,55 @@ describe('Knapsack component', () => {
 
     expect(screen.getByText(/Capacity exceeded/i)).toBeInTheDocument();
   });
+
+  test('disables qubit selection when finalized', () => {
+    render(<Knapsack />);
+    
+    // Click the finalize button
+    const finalizeButton = screen.getByText('Finalize Knapsack');
+    fireEvent.click(finalizeButton);
+    
+    // Try to add a qubit
+    const qubitButtons = screen.getAllByTestId('mock-qubit');
+    fireEvent.click(qubitButtons[0]);
+    
+    // Check if the weight and value remain unchanged
+    expect(screen.getByText(/Weight: 0/)).toBeInTheDocument();
+    expect(screen.getByText(/Value: 0/)).toBeInTheDocument();
+  });
+
+  test('disables finalize button after finalization', () => {
+    render(<Knapsack />);
+    
+    const finalizeButton = screen.getByText('Finalize Knapsack');
+    fireEvent.click(finalizeButton);
+    
+    expect(finalizeButton).toBeDisabled();
+  });
+
+  test('shows success message after finalization', () => {
+    render(<Knapsack />);
+    
+    const finalizeButton = screen.getByText('Finalize Knapsack');
+    fireEvent.click(finalizeButton);
+    
+    expect(screen.getByText(/Knapsack Finalized! Round Complete./i)).toBeInTheDocument();
+  });
+
+  test('maintains correct state after multiple operations', () => {
+    render(<Knapsack />);
+    
+    const qubitButtons = screen.getAllByTestId('mock-qubit');
+    
+    // Add two qubits
+    fireEvent.click(qubitButtons[0]);
+    fireEvent.click(qubitButtons[1]);
+    
+    // Remove one qubit
+    fireEvent.click(qubitButtons[0]);
+    
+    // Check if the weight and value are correct
+    expect(screen.getByText(/Weight: 50/)).toBeInTheDocument();
+    expect(screen.getByText(/Value: 35/)).toBeInTheDocument();
+  });
 });

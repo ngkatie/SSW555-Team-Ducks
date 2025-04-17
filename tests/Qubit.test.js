@@ -46,4 +46,60 @@ describe("Qubit Component", () => {
     //   expect(screen.getByText(fixedValue)).toBeInTheDocument();
     // });
   });
+
+  it("changes badge symbol when added", () => {
+    const { rerender } = render(<Qubit onSelect={jest.fn()} isAdded={false} />);
+    expect(screen.getByText("+")).toBeInTheDocument();
+    
+    rerender(<Qubit onSelect={jest.fn()} isAdded={true} />);
+    expect(screen.getByText("-")).toBeInTheDocument();
+  });
+
+  it("calls onRemove when clicked in added state", () => {
+    const mockOnRemove = jest.fn();
+    render(<Qubit onSelect={jest.fn()} onRemove={mockOnRemove} isAdded={true} />);
+    
+    const badge = screen.getByText("-");
+    fireEvent.click(badge);
+    
+    expect(mockOnRemove).toHaveBeenCalledTimes(1);
+  });
+
+  it("displays correct weight type based on isHeavy prop", () => {
+    const { rerender } = render(<Qubit onSelect={jest.fn()} isHeavy={true} />);
+    expect(screen.getByText("Heavy")).toBeInTheDocument();
+    
+    rerender(<Qubit onSelect={jest.fn()} isHeavy={false} />);
+    expect(screen.getByText("Light")).toBeInTheDocument();
+  });
+
+  it("maintains state after multiple clicks", () => {
+    const mockOnSelect = jest.fn();
+    const mockOnRemove = jest.fn();
+    const { rerender } = render(
+      <Qubit 
+        onSelect={mockOnSelect} 
+        onRemove={mockOnRemove} 
+        isAdded={false} 
+      />
+    );
+    
+    // First click (add)
+    const badge = screen.getByText("+");
+    fireEvent.click(badge);
+    expect(mockOnSelect).toHaveBeenCalledTimes(1);
+    
+    // Rerender with added state
+    rerender(
+      <Qubit 
+        onSelect={mockOnSelect} 
+        onRemove={mockOnRemove} 
+        isAdded={true} 
+      />
+    );
+    
+    // Second click (remove)
+    fireEvent.click(screen.getByText("-"));
+    expect(mockOnRemove).toHaveBeenCalledTimes(1);
+  });
 });
