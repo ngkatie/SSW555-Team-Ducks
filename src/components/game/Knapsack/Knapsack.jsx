@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Box, Grid, Modal, Typography } from "@mui/material";
+import BackpackIcon from '@mui/icons-material/Backpack';
 import Qubit from '../Qubit/Qubit';
 import './Knapsack.css';
 
@@ -113,8 +114,9 @@ const Knapsack = ({initialCapacity, roundId}) => {
         <div className="game-container">
             <div className="knapsack-container">
 
-                <Box component="section" className="knapsack-box">
-                    <h2>My Knapsack</h2>
+                <Box component="section" className="knapsack-box" textAlign="center">
+                    <BackpackIcon sx={{ fontSize: 70, color: "primary.main" }} />
+                    <Typography variant="h5" mt={1}>My Knapsack</Typography>
                     <div className="knapsack-stats">
                         <p><strong>Capacity:</strong> {capacity}</p>
                         <p><strong>Weight:</strong> {weight}</p>
