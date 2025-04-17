@@ -3,10 +3,11 @@ import { Card, CardContent, Badge, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import "./Qubit.css"
 
-const Qubit = ({ onSelect, onRemove, isAdded: propIsAdded }) => {
-  const [isHeavy, setIsHeavy] = useState(Math.round(Math.random()));
-  const [weight, setWeight] = useState(0);
-  const [value, setValue] = useState(Math.floor(Math.random() * 50));
+const Qubit = ({ onSelect, onRemove, isAdded: propIsAdded, initialValue, initialWeight }) => {
+  const [isHeavy, setIsHeavy] = useState(initialWeight === 10);
+  const [weight, setWeight] = useState(initialWeight);
+  const [displayValue, setDisplayValue] = useState(initialValue);
+  const [frozenValue, setFrozenValue] = useState(null);
   const [isFixed, setIsFixed] = useState(false);
   const [isAdded, setIsAdded] = useState(propIsAdded);
 
@@ -17,15 +18,10 @@ const Qubit = ({ onSelect, onRemove, isAdded: propIsAdded }) => {
   }, [propIsAdded]);
 
   useEffect(() => {
-    if (isHeavy) {
-      setWeight(10)
-    } else {
-      setWeight(5)
-    }
-
     if (!isFixed) {
       const interval = setInterval(() => {
-        setValue(Math.floor(Math.random() * 50));
+        // Generate a new random value for display while in superposition
+        setDisplayValue(Math.floor(Math.random() * 50));
       }, 500);
       
       setTimeout(() => clearInterval(interval), 40000);
@@ -35,7 +31,12 @@ const Qubit = ({ onSelect, onRemove, isAdded: propIsAdded }) => {
   }, [isFixed]);
 
   const handleSelect = () => {
-    const qubit = { value, weight };
+    // Freeze the current displayed value at the moment of selection
+    const currentValue = displayValue;
+    setFrozenValue(currentValue);
+    setIsFixed(true);
+    
+    const qubit = { value: currentValue, weight };
     if (!isAdded) {
       onSelect(qubit);
     } else {
@@ -67,7 +68,7 @@ const Qubit = ({ onSelect, onRemove, isAdded: propIsAdded }) => {
                 animate={{ opacity: [0.5, 1, 0.5] }}
                 transition={{ repeat: Infinity, duration: 1 }}
               >
-                <Typography variant="h5">{value}</Typography>
+                <Typography variant="h5">{isFixed ? frozenValue : displayValue}</Typography>
               </motion.div>
               <p>{isHeavy ? 'Heavy' : 'Light'}</p>
             </CardContent>

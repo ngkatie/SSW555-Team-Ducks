@@ -85,13 +85,13 @@ const Knapsack = ({initialCapacity}) => {
             weight: Math.random() > 0.5 ? 10 : 5 
         };
 
-        const handleSelect = () => {
+        const handleSelect = (selectedQubit) => {
             if (!qubitStates[i]) {
-                if (addQubit(qubit)) {
+                if (addQubit(selectedQubit)) {
                     setQubitStates(prev => ({ ...prev, [i]: true }));
                 }
             } else {
-                if (removeQubit(qubit)) {
+                if (removeQubit(selectedQubit)) {
                     setQubitStates(prev => ({ ...prev, [i]: false }));
                 }
             }
@@ -103,6 +103,8 @@ const Knapsack = ({initialCapacity}) => {
                 onSelect={handleSelect}
                 onRemove={handleSelect}
                 isAdded={qubitStates[i] || false}
+                initialValue={qubit.value}
+                initialWeight={qubit.weight}
             />
         );
     });
