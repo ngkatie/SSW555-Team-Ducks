@@ -35,9 +35,9 @@ const Qubit = ({ id, onSelect }) => {
     }
   }, [isFixed]);
 
-  const handleSelect = () => {
+  const handleAdd = () => {
     setIsFixed(!isFixed);
-    onSelect({isAdded, value, weight});
+    onSelect({id, value, weight});
     setIsAdded(!isAdded);
   }
 
@@ -46,7 +46,7 @@ const Qubit = ({ id, onSelect }) => {
       {isAdded ? 
 
       // Qubit added
-      <Badge badgeContent={"-"} color="error" overlap="circular" onClick={handleSelect}>
+      <Badge badgeContent={"-"} color="error" overlap="circular">
 
           <Card sx={{ width: 70, height: 70, border: 1, borderRadius: '50%' , backgroundColor: 'gray'}}>
 
@@ -59,7 +59,7 @@ const Qubit = ({ id, onSelect }) => {
       </Badge> :
 
       // Qubit not added
-      <Badge badgeContent={"+"} color="success" overlap="circular" onClick={handleSelect}>
+      <Badge badgeContent={"+"} color="success" overlap="circular" onClick={handleAdd}>
 
       <motion.div
         style={{ width: 70, height: 70, border: 1, borderRadius: '50%' }}

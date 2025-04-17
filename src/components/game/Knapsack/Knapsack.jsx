@@ -8,61 +8,70 @@ const useKnapsack = (initialCapacity = 50, roundId = "1") => {
     const [capacity, setCapacity] = useState(initialCapacity);
     const [weight, setWeight] = useState(0);
     const [value, setValue] = useState(0);
-    const [addedQubits, setAddedQubits] = useState([]); // holds IDs
+    const [addedQubits, setAddedQubits] = useState([]);
     const [entangledPairs, setEntangledPairs] = useState([]);
     const [showError, setShowError] = useState(false);
 
-    // Setup entanglement pairs
-    useEffect(() => {
-        if (roundId === "2") {
-            const numPairs = 3;
-            const indices = Array.from({ length: 12 }, (_, i) => i);
-            const shuffled = indices.sort(() => Math.random() - 0.5);
-            const pairs = [];
+    // useEffect(() => {
+    //     if (roundId === "2") {
+    //         const numPairs = 3;
+    //         const indices = Array.from({ length: 12 }, (_, i) => i);
+    //         const shuffled = indices.sort(() => Math.random() - 0.5);
+    //         const pairs = [];
 
-            for (let i = 0; i < numPairs * 2; i += 2) {
-                pairs.push([shuffled[i], shuffled[i + 1]]);
-            }
+    //         for (let i = 0; i < numPairs * 2; i += 2) {
+    //             pairs.push([shuffled[i], shuffled[i + 1]]);
+    //         }
 
-            setEntangledPairs(pairs);
-        }
-    }, [roundId]);
+    //         setEntangledPairs(pairs);
+    //     }
+    // }, [roundId]);
 
-    const isEntangled = (id) => {
-        for (const [a, b] of entangledPairs) {
-            if (a === id) return b;
-            if (b === id) return a;
-        }
-        return null;
-    };
+    // const isEntangled = (id) => {
+    //     for (const [a, b] of entangledPairs) {
+    //         if (a === id) return b;
+    //         if (b === id) return a;
+    //     }
+    //     return null;
+    // };
 
     const addQubit = (qubit) => {
-        const { id, weight: w, value: v } = qubit;
+        const { id: id, weight: w, value: v } = qubit;
 
-        if (addedQubits.includes(id)) return;
-
-        // Check capacity
+        // Over capacity
         if (weight + w > capacity) {
             setShowError(true);
             return;
         }
+        
+        if (addedQubits.includes(id)) {
+            setShowError(true);
+            return;
+        }
+    
+        setAddedQubits((prevAdded) => {
 
-        // Add qubit
+            // const partnerId = isEntangled(id);
+            // if (partnerId !== null && !prevAdded.includes(partnerId)) {
+            //     const partner = {
+            //         id: partnerId,
+            //         weight: 5,
+            //         value: 10
+            //     };
+    
+            //     setTimeout(() => addQubit(partner), 100);
+            // }
+    
+            return [...prevAdded, id];
+        });
+
+        // Update state
         setWeight((prev) => prev + w);
         setValue((prev) => prev + v);
-        setAddedQubits((prev) => [...prev, id]);
 
-        // If entangled, add pair
-        const partnerId = isEntangled(id);
-        if (partnerId !== null && !addedQubits.includes(partnerId)) {
-            
-            const partner = {
-                id: partnerId,
-                weight: 5,
-                value: 10
-            };
-        }
+        return true;
     };
+    
 
     return {
         capacity,

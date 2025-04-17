@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate, useLocation } from 'react-router-dom';
+import roundContent from '../components/game/Rounds/roundContent.json';
 
-const rounds = [1, 2, 3]; // Add more rounds if needed
+const rounds = [1,2,3]
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -43,7 +44,7 @@ const NavBar = () => {
               selected={currentRound === String(round)}
               onClick={() => handleRoundSelect(round)}
             >
-              Round {round}
+              {roundContent[round].title}
             </MenuItem>
           ))}
         </Menu>
