@@ -58,13 +58,6 @@ const Qubit = ({ onSelect }) => {
           <Card sx={{ width: 100, height: 100, border: 1, borderRadius: '50%' }}>
 
             <CardContent>
-              <motion.div
-                className="text-2xl font-mono mt-2"
-                animate={{ opacity: [0.5, 1, 0.5] }}
-                transition={{ repeat: Infinity, duration: 1 }}
-              >
-                <Typography variant="h5">{value}</Typography>
-              </motion.div>
               <p>{isHeavy ? 'Heavy' : 'Light'}</p>
             </CardContent>
 
@@ -89,13 +82,6 @@ const Qubit = ({ onSelect }) => {
         <Card sx={{ width: 100, height: 100, border: 1, borderRadius: '50%' }}>
 
           <CardContent>
-            <motion.div
-              className="text-2xl font-mono mt-2"
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ repeat: Infinity, duration: 1 }}
-            >
-              <Typography variant="h5">{value}</Typography>
-            </motion.div>
             <p>{isHeavy ? 'Heavy' : 'Light'}</p>
           </CardContent>
 

@@ -28,7 +28,7 @@ const Knapsack = ({initialCapacity}) => {
 
     const { capacity, weight, value, addQubit, showError, setShowError } = useKnapsack(initialCapacity);
 
-    const numQubits = 10;
+    const numQubits = 12;
     const qubits = Array.from({ length: numQubits }, (_, i) => (
         <Qubit key={i} onSelect={addQubit} />
     ));
@@ -48,8 +48,8 @@ const Knapsack = ({initialCapacity}) => {
     
 
     return (
-        <div>
-            <Grid container className="knapsack-container" sx={{ justifyContent: "center", alignItems: "center" }}>
+        <div className="game-container">
+            <div className="knapsack-container">
 
                 <Box component="section" className="knapsack-box">
                     <h2>My Knapsack</h2>
@@ -61,10 +61,11 @@ const Knapsack = ({initialCapacity}) => {
                     </div>
                 </Box>
 
-                <Grid container spacing={2}>
+                <Grid className="qubit-container" container spacing={2}>
                     {qubits}
                 </Grid>
-            </Grid>
+
+            </div>
 
             <ErrorModal open={showError} onClose={() => setShowError(false)}/>
         </div>
