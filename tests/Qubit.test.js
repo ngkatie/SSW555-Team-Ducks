@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Knapsack from "../src/components/game/Knapsack/Knapsack";
 import Qubit from "../src/components/game/Qubit/Qubit";
 
