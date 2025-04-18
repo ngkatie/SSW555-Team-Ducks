@@ -30,6 +30,10 @@ const Qubit = ({ onSelect, onRemove, isAdded: propIsAdded, initialValue, initial
     }
   }, [isFixed]);
 
+  useEffect(() => {
+    setIsHeavy(initialWeight === 10);
+  }, [initialWeight]);
+
   const handleSelect = () => {
     // Freeze the current displayed value at the moment of selection
     const currentValue = displayValue;

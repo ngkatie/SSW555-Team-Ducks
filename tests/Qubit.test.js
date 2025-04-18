@@ -69,14 +69,6 @@ describe("Qubit Component", () => {
     expect(mockOnRemove).toHaveBeenCalledTimes(1);
   });
 
-  it("displays correct weight type based on weight", () => {
-    const { rerender } = render(<Qubit onSelect={jest.fn()} initialValue={25} initialWeight={10} />);
-    expect(screen.getByText("Heavy")).toBeInTheDocument();
-    
-    rerender(<Qubit onSelect={jest.fn()} initialValue={25} initialWeight={5} />);
-    expect(screen.getByText("Light")).toBeInTheDocument();
-  });
-
   it("maintains state after multiple clicks", () => {
     const mockOnSelect = jest.fn();
     const mockOnRemove = jest.fn();
@@ -109,5 +101,13 @@ describe("Qubit Component", () => {
     // Second click (remove)
     fireEvent.click(screen.getByText("-"));
     expect(mockOnRemove).toHaveBeenCalledTimes(1);
+  });
+
+  it("displays correct weight type based on weight", () => {
+    const { rerender } = render(<Qubit onSelect={jest.fn()} initialValue={25} initialWeight={10} />);
+    expect(screen.getByText("Heavy")).toBeInTheDocument();
+    
+    rerender(<Qubit onSelect={jest.fn()} initialValue={25} initialWeight={5} />);
+    expect(screen.getByText("Light")).toBeInTheDocument();
   });
 });

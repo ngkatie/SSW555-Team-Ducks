@@ -3,14 +3,28 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Knapsack from '../src/components/game/Knapsack/Knapsack';
 import '@testing-library/jest-dom';
 
-// Mock Qubit component to simulate interaction
-jest.mock('../src/components/game/Qubit/Qubit', () => (props) => {
-  const mockQubit = { weight: 50, value: 35 };
-  return (
-    <button onClick={() => props.onSelect(mockQubit)} data-testid="mock-qubit">
-      Mock Qubit
-    </button>
-  );
+jest.mock('../src/components/game/Qubit/Qubit', () => {
+  let callCount = 0;
+  const fixedQubits = [
+    { weight: 10, value: 30 },
+    { weight: 5, value: 19 }
+  ];
+
+  return (props) => {
+    const mockQubit = fixedQubits[callCount % 2];
+    callCount++;
+
+    return (
+      <button 
+        onClick={() => props.onSelect(mockQubit)} 
+        data-testid="mock-qubit"
+        data-weight={mockQubit.weight}
+        data-value={mockQubit.value}
+      >
+        Mock Qubit
+      </button>
+    );
+  };
 });
 
 describe('Knapsack component', () => {
@@ -32,18 +46,20 @@ describe('Knapsack component', () => {
     expect(screen.getByText(/Value:/)).toBeInTheDocument();
   });
 
-  test('shows error modal if capacity is exceeded', () => {
-    render(<Knapsack initialCapacity={50} />);
-
+  test('shows error modal if capacity is exceeded', async () => {
+    render(<Knapsack initialCapacity={10} />);
     const qubitButtons = screen.getAllByTestId('mock-qubit');
-    fireEvent.click(qubitButtons[0]);
-    fireEvent.click(qubitButtons[1]);
 
-    expect(screen.getByText(/Capacity exceeded/i)).toBeInTheDocument();
+    fireEvent.click(qubitButtons[0]); 
+    await fireEvent.click(qubitButtons[1]); 
+
+    await screen.findByText((_, node) =>
+      node.textContent === "Capacity exceeded! Cannot add this qubit to knapsack."
+    );
   });
 
   test('disables qubit selection when finalized', () => {
-    render(<Knapsack />);
+    render(<Knapsack initialCapacity={100} />);
     
     // Click the finalize button
     const finalizeButton = screen.getByText('Finalize Knapsack');
@@ -54,8 +70,9 @@ describe('Knapsack component', () => {
     fireEvent.click(qubitButtons[0]);
     
     // Check if the weight and value remain unchanged
-    expect(screen.getByText(/Weight: 0/)).toBeInTheDocument();
-    expect(screen.getByText(/Value: 0/)).toBeInTheDocument();
+    expect(screen.getByText((_, node) => 
+      node.textContent === 'Weight: 0')).toBeInTheDocument();
+    expect(screen.getByText((_, node) => node.textContent === 'Value: 0')).toBeInTheDocument();
   });
 
   test('disables finalize button after finalization', () => {
@@ -77,19 +94,20 @@ describe('Knapsack component', () => {
   });
 
   test('maintains correct state after multiple operations', () => {
-    render(<Knapsack />);
-    
+    render(<Knapsack initialCapacity={100} />);
+  
     const qubitButtons = screen.getAllByTestId('mock-qubit');
-    
-    // Add two qubits
-    fireEvent.click(qubitButtons[0]);
-    fireEvent.click(qubitButtons[1]);
-    
-    // Remove one qubit
-    fireEvent.click(qubitButtons[0]);
-    
-    // Check if the weight and value are correct
-    expect(screen.getByText(/Weight: 50/)).toBeInTheDocument();
-    expect(screen.getByText(/Value: 35/)).toBeInTheDocument();
+    const q0 = qubitButtons[0];
+    const q1 = qubitButtons[1];
+  
+    fireEvent.click(q0); // Add Qubit 0 (weight 10, value 30)
+    fireEvent.click(q1); // Add Qubit 1 (weight 5, value 19)
+    fireEvent.click(q0); // Remove Qubit 0
+  
+    expect(screen.getByText((_, node) =>
+      node?.textContent?.replace(/\s+/g, '') === 'Weight:5')).toBeInTheDocument();
+  
+    expect(screen.getByText((_, node) =>
+      node?.textContent?.replace(/\s+/g, '') === 'Value:19')).toBeInTheDocument();
   });
 });
