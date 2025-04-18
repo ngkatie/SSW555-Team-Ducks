@@ -4,15 +4,15 @@ import RoundWrapper from "../src/components/game/Rounds/RoundWrapper";
 import roundContent from "../src/components/game/Rounds/roundContent.json";
 
 const rounds = Object.entries(roundContent).map(([key, content]) => ({
-  roundNum: key,
+  roundId: key,
   ...content
 }));
 
 describe("Round Modals", () => {
   test.each(rounds)(
     "displays content and closes when toggled",
-    ({ roundNum, title, explanations, buttonLabel }) => {
-      render(<RoundWrapper roundNum={roundNum} />);
+    ({ roundId, title, explanations, buttonLabel }) => {
+      render(<RoundWrapper roundId={roundId} />);
 
       expect(screen.getByText(title)).toBeInTheDocument();
 
@@ -29,7 +29,7 @@ describe("Round Modals", () => {
   );
 
   test("error handling for invalid round", () => {
-    const { container } = render(<RoundWrapper roundNum="invalidKey" />);
+    const { container } = render(<RoundWrapper roundId="invalidKey" />);
     expect(container.firstChild).toBeNull(); // renders nothing
   });
 });

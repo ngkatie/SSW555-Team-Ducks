@@ -32,6 +32,16 @@ describe('Knapsack component', () => {
     expect(screen.getByText(/Value:/)).toBeInTheDocument();
   });
 
+  test('does not add duplicate qubits', async () => {
+    render(<Knapsack initialCapacity={100}/>);
+
+    const qubitButtons = screen.getAllByTestId('mock-qubit');
+    fireEvent.click(qubitButtons[0]);
+    fireEvent.click(qubitButtons[0]); // duplicate
+
+    expect(screen.getByText(/50/)).toHaveTextContent('50');
+});
+
   test('shows error modal if capacity is exceeded', () => {
     render(<Knapsack initialCapacity={50} />);
 

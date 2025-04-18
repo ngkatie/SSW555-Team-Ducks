@@ -1,6 +1,6 @@
 {
     "1": {
-      "title": "Round 1: Superposition",
+      "title": "Round 1 - Superposition",
       "explanations": [
         "To get started, let's learn about superposition. Quantum computing is powerful because quantum bits (qubits) leverage superposition, the quality of existing in multiple states simultaneously.",
         "In our game, each qubit has a fixed weight and a value in superposition. Our goal is to add qubits to our knapsack to maximize our total value, without exceeding the weight capacity!"
@@ -8,7 +8,7 @@
       "buttonLabel": "Ready!"
     },
     "2": {
-      "title": "Round 2: Entanglement",
+      "title": "Round 2 - Entanglement",
       "explanations": [
         "Now that you've seen superposition in action, let's dive into entanglement, another key principle in quantum computing. Entanglement is a special connection between qubits where the state of one instantly influences the state of another, no matter how far apart they are.",
         "In our game, some qubits are entangled. When you add one to your knapsack, its partner will automatically adjust to match. Your challenge is to think strategically about how these linked pairs impact your total value and capacity!"
@@ -16,7 +16,7 @@
       "buttonLabel": "Let's try!"
     },
     "3": {
-      "title": "Round 3: Decoherence",
+      "title": "Round 3 - Decoherence",
       "explanations": [
         "You've mastered entanglement, and now it's time to face decoherence. In the real world, quantum systems are fragile. Decoherence happens when outside forces disrupt qubits, causing them to lose their quantum properties.",
         "In this round, random decoherence events may occur, reducing your knapsack's capacity. You'll need to adapt quickly, making smart choices even as the system shifts. Plan carefully to overcome the noise!"
